@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  viralution_the_platform:
+    image: bimstudio/viralution_the_platform
+    container_name: viralution_the_platform
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    ports:
+      - "27017:27017"
+      - "8574:8574"
+      - "9000:9000"
+      - "9001:9001"
+      - "80:80"
+    volumes:
+      - docker-data:/var/lib/docker
+      # - /var/run/docker.sock:/var/run/docker.sock
+      - ./minio_data:/app/minio_data
+      - ./mongo-data:/app/mongo-data
+      - ./rabbitmq_data:/app/rabbitmq_data
+      - ./env:/app/env
+    restart: unless-stopped
+volumes:
+  docker-data:
+    name: docker-data
