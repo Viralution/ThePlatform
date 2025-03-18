@@ -48,11 +48,15 @@ Follow these steps to start the platform in development mode:
    docker-compose down
    ```
 
+> **Note:** Production deployment instructions will be available in a future release. Currently, only development mode is supported.
+
 ## ⚠️ Important Disclaimers
 
 ### Development Mode Only
 
 The configuration in this repository is intended for **local development environments only**. Do not use these settings in production without implementing proper security measures.
+
+A production-ready configuration with enhanced security, scalability options, and deployment guides is planned for a future release. Stay tuned for updates!
 
 ### MinIO Storage Warning
 
