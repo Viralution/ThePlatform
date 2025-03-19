@@ -1,0 +1,166 @@
+networks:
+  nginx-network:
+    name: nginx-network
+
+services:
+  viralution_client:
+    image: bimstudio/viralution_client
+    container_name: viralution_client
+    labels:
+      - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    env_file:
+      - ./env/viralution_client.env
+    restart: always
+    networks:
+      - nginx-network
+  viralution_admin:
+    image: bimstudio/viralution_admin
+    container_name: viralution_admin
+    labels:
+      - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    # ports:
+    #   - 4333:80
+    env_file:
+      - ./env/viralution_admin.env
+    restart: always
+    networks:
+      - nginx-network
+  viralution_api:
+    image: bimstudio/viralution_api
+    container_name: viralution_api
+    labels:
+      - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    # extra_hosts:
+    #   - "127.0.0.1:host-gateway"
+    env_file:
+      - ./env/viralution_api.env
+    volumes:
+      - ./env/appsettings.json:/app/appsettings.json
+    depends_on:
+      viralution_mongo:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+    networks:
+      - nginx-network
+  viralution_screenshot:
+    image: bimstudio/viralution_screenshot
+    container_name: viralution_screenshot
+    labels:
+      - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    ports:
+      - "8574:8574"
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+    networks:
+      - nginx-network
+  viralution_simple_viewer:
+    image: bimstudio/viralution_simple_viewer
+    container_name: viralution_simple_viewer
+    labels:
+      - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    restart: always
+    networks:
+      - nginx-network
+  viralution_ifc_extractor:
+    image: bimstudio/viralution_ifc_extractor
+    container_name: viralution_ifc_extractor
+    labels:
+      - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    # extra_hosts:
+    #   - "localhost:host-gateway"
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+    networks:
+      - nginx-network
+  # # Uncomment this to use minio
+  # viralution-minio:
+  #   image: quay.io/minio/minio
+  #   container_name: viralution-minio
+  #   command: server --console-address ":9001" /data
+  #   # ports:
+  #   # - 9000:9000
+  #   # - 9001:9001
+  #   volumes:
+  #     - ./minio_data:/data
+  #   env_file:
+  #     - ./env/viralution-minio.env
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+  #     interval: 30s
+  #     timeout: 20s
+  #     retries: 3
+  #   restart: always
+  #   networks:
+  #     - nginx-network
+
+  viralution_mongo:
+    image: bimstudio/viralution_mongo
+    container_name: viralution_mongo
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - ./mongo_data:/data/db
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: HojNtKhd2Ic1IqS
+    networks:
+      - nginx-network
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    restart: always
+    # ports:
+    #   - "5672:5672"   # AMQP
+    #   - "15672:15672" # Management UI
+    env_file:
+      - ./env/rabbitmq.env
+    volumes:
+      - ./rabbitmq_data:/var/lib/rabbitmq
+      - ./env/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./env/definitions.json:/etc/rabbitmq/definitions.json
+    command: ["rabbitmq-server"]
+    networks:
+      - nginx-network
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+  redis:
+    image: "redis/redis-stack:latest"
+    container_name: redis
+    # ports:
+    #   - "8001:8001"
+    #   - "6379:6379"
+    env_file:
+      - ./env/redis.env
+    networks:
+      - nginx-network
+    restart: always
+  nginx:
+    image: nginx:latest
+    container_name: viralution_nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./env/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - viralution_client
+      - viralution_api
+      # - viralution-minio
+    restart: always
+    networks:
+      - nginx-network
