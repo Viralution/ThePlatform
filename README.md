@@ -16,6 +16,10 @@ ThePlatform is the self-hosted version of [Viralution](https://viralution.io/), 
 - RabbitMQ for message queuing
 - Containerized deployment with Docker
 
+## Documentation
+
+For detailed documentation on how to use the Viralution platform, please visit our [official documentation site](https://doc.viralution.io/).
+
 ## Prerequisites
 
 - Docker and Docker Compose
@@ -78,6 +82,7 @@ Environment variables for each service are stored in the `dev/env/` directory:
 ## Support
 
 For issues, questions, or contributions, please:
+- Read the [official documentation](https://doc.viralution.io/) for detailed guides and tutorials
 - Open an issue in this repository
 - Visit [Viralution Support](https://viralution.io/support) for professional support options
 
