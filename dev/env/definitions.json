@@ -1,0 +1,95 @@
+{
+  "users": [
+    {
+      "name": "admin",
+      "password": "admin123",
+      "tags": "administrator"
+    },
+    {
+      "name": "viralution-server-dev",
+      "password": "0PoN55J5NYXnHzj",
+      "tags": "none"
+    },
+    {
+      "name": "viralution-server-prod",
+      "password": "s2iooOSZNtdvjTx",
+      "tags": "none"
+    },
+    {
+      "name": "viralution-screenshot-dev",
+      "password": "GWXqeBjdk8dgJws",
+      "tags": "none"
+    },
+    {
+      "name": "viralution-screenshot-prod",
+      "password": "KVMJraXhbK6Asvz",
+      "tags": "none"
+    },
+    {
+      "name": "viralution-ifc-extractor-dev",
+      "password": "bGPgPGyEkzAvFdN",
+      "tags": "none"
+    },
+    {
+      "name": "viralution-ifc-extractor-prod",
+      "password": "xKUck2FzXsiaIno",
+      "tags": "none"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "admin",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "viralution-server-dev",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "viralution-server-prod",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "viralution-screenshot-dev",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "viralution-screenshot-prod",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "viralution-ifc-extractor-dev",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "viralution-ifc-extractor-prod",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ]
+}
