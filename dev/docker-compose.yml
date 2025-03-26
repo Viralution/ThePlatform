@@ -4,17 +4,19 @@ networks:
 
 services:
   viralution_client:
-    image: bimstudio/viralution_client
+    image: bimstudio/viralution_client:latest
     container_name: viralution_client
     labels:
       - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
+    # ports:
+    #   - 4333:80
     env_file:
       - ./env/viralution_client.env
     restart: always
     networks:
       - nginx-network
   viralution_admin:
-    image: bimstudio/viralution_admin
+    image: bimstudio/viralution_admin:latest
     container_name: viralution_admin
     labels:
       - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
@@ -26,7 +28,7 @@ services:
     networks:
       - nginx-network
   viralution_api:
-    image: bimstudio/viralution_api
+    image: bimstudio/viralution_api:latest
     container_name: viralution_api
     labels:
       - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
@@ -45,7 +47,7 @@ services:
     networks:
       - nginx-network
   viralution_screenshot:
-    image: bimstudio/viralution_screenshot
+    image: bimstudio/viralution_screenshot:latest
     container_name: viralution_screenshot
     labels:
       - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
@@ -60,7 +62,7 @@ services:
     networks:
       - nginx-network
   viralution_simple_viewer:
-    image: bimstudio/viralution_simple_viewer
+    image: bimstudio/viralution_simple_viewer:latest
     container_name: viralution_simple_viewer
     labels:
       - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
@@ -68,7 +70,7 @@ services:
     networks:
       - nginx-network
   viralution_ifc_extractor:
-    image: bimstudio/viralution_ifc_extractor
+    image: bimstudio/viralution_ifc_extractor:latest
     container_name: viralution_ifc_extractor
     labels:
       - com.centurylinklabs.watchtower.enable=true # this label telling watchtower to update container if it have new image
@@ -114,7 +116,7 @@ services:
     networks:
       - nginx-network
   viralution_mongo:
-    image: bimstudio/viralution_mongo
+    image: bimstudio/viralution_mongo:latest
     container_name: viralution_mongo
     ports:
       - 27017:27017
@@ -164,7 +166,7 @@ services:
     image: nginx:latest
     container_name: viralution_nginx
     ports:
-      - 80:80
+      - 8071:80
     volumes:
       - ./env/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
