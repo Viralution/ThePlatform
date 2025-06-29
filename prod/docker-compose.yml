@@ -91,9 +91,9 @@ services:
     networks:
       - nginx-network
   # # Uncomment this to use minio
-  # viralution-minio:
+  # viralution_minio:
   #   image: quay.io/minio/minio
-  #   container_name: viralution-minio
+  #   container_name: viralution_minio
   #   command: server --console-address ":9001" /data
   #   # ports:
   #   # - 9000:9000
@@ -101,7 +101,7 @@ services:
   #   volumes:
   #     - ./minio_data:/data
   #   env_file:
-  #     - ./env/viralution-minio.env
+  #     - ./env/viralution_minio.env
   #   healthcheck:
   #     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
   #     interval: 30s
