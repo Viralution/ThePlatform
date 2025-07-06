@@ -43,6 +43,8 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_healthy
+      viralution_minio:
+        condition: service_started
     restart: always
     networks:
       - nginx-network
@@ -84,9 +86,9 @@ services:
     restart: always
     networks:
       - nginx-network
-  viralution-minio:
-    image: quay.io/minio/minio
-    container_name: viralution-minio
+  viralution_minio:
+    image: minio/minio:RELEASE.2024-11-07T00-52-20Z
+    container_name: viralution-minio #!!!IMPORTANT minio hostname is not allow underscore, so it cant be 'viralution_minio'
     command: server --console-address ":9001" /data
     # network_mode: "host"
     ports:
@@ -95,7 +97,7 @@ services:
     volumes:
       - ./minio_data:/data
     env_file:
-      - ./env/viralution-minio.env
+      - ./env/viralution_minio.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -104,15 +106,15 @@ services:
     restart: always
     networks:
       - nginx-network
-  minio-proxy:
+  minio_proxy:
     image: nginx:latest
-    container_name: minio-proxy
+    container_name: minio_proxy
     ports:
       - 9000:9000
     volumes:
-      - ./env/nginx-minio.conf:/etc/nginx/nginx.conf
+      - ./env/nginx_minio.conf:/etc/nginx/nginx.conf
     depends_on:
-      - viralution-minio
+      - viralution_minio
     networks:
       - nginx-network
   viralution_mongo:
